@@ -404,7 +404,6 @@ public class Import
    * This method starts the import
    * 
    * @throws ApplicationException
-   * @throws RemoteException
    */
   public boolean importFile(final ResultSet results, final int nrOfResults,
       final Map<String, String> colMap)

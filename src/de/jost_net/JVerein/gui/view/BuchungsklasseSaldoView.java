@@ -27,7 +27,6 @@ import de.jost_net.JVerein.Einstellungen;
 import de.jost_net.JVerein.gui.action.DokumentationAction;
 import de.jost_net.JVerein.gui.control.BuchungsklasseSaldoControl;
 import de.jost_net.JVerein.rmi.Buchung;
-import de.jost_net.JVerein.util.Geschaeftsjahr;
 import de.willuhn.datasource.rmi.DBIterator;
 import de.willuhn.datasource.rmi.DBService;
 import de.willuhn.datasource.rmi.ResultSetExtractor;
@@ -110,7 +109,8 @@ public class BuchungsklasseSaldoView extends AbstractView {
 	}
 
 	@Override
-	public void bind() throws Exception {
+	public void bind() throws Exception 
+	{
 		GUI.getView().setTitle("Buchungsklassen-Saldo");
 
 		final BuchungsklasseSaldoControl control = new BuchungsklasseSaldoControl(this);
@@ -119,44 +119,42 @@ public class BuchungsklasseSaldoView extends AbstractView {
 		group.addLabelPair("von", control.getDatumvon());
 		group.addLabelPair("bis", control.getDatumbis());
 
+		DBIterator<Buchung> list = Einstellungen.getDBService().createList(Buchung.class);
+		if (list == null || !list.hasNext())
+		{
+		throw new ApplicationException("Abbruch! Es existiert noch keine Buchung.");
+		}
+
 		LabelGroup quickGroup = new LabelGroup(getParent(), "Schnellzugriff");
 		ButtonArea quickBtns = new ButtonArea();
-
-		DBIterator<Buchung> list = Einstellungen.getDBService().createList(Buchung.class);
-		if (list != null && list.hasNext()) {
-			Integer minYearBounds = getYearBounds("min");
-			Integer maxYearBounds = getYearBounds("max");
-
-			for (Integer i = minYearBounds; i < maxYearBounds + 1; i++) {
-				quickBtns.addButton(i.toString(),
-						new QuickAccessAction(control, genYearStartDate(i), genYearEndDate(i)), null, false);
-			}
-
-			quickBtns.addButton("Letzte 30 Tage", new QuickAccessAction(control, deltaDaysFromNow(-30), new Date()));
-			quickBtns.addButton("Letzte 90 Tage", new QuickAccessAction(control, deltaDaysFromNow(-90), new Date()));
-			quickGroup.addPart(quickBtns);
-
-			ButtonArea buttons = new ButtonArea();
-			Button button = new Button("suchen", new Action() {
-				@Override
-				public void handleAction(Object context) throws ApplicationException {
-					control.getSaldoList();
-				}
-			}, null, true, "search.png");
-			buttons.addButton(button);
-			buttons.paint(this.getParent());
-
-			LabelGroup group2 = new LabelGroup(getParent(), "Saldo", true);
-			group2.addPart(control.getSaldoList());
-
-			ButtonArea buttons2 = new ButtonArea();
-			buttons2.addButton("Hilfe", new DokumentationAction(), DokumentationUtil.JAHRESSALDO, false,
-					"question-circle.png");
-			buttons2.addButton(control.getStartAuswertungCSVButton());
-			buttons2.addButton(control.getStartAuswertungButton());
-			buttons2.paint(this.getParent());
-		} else {
-			throw new ApplicationException("Abbruch! Es existiert noch keine Buchung");
+		for (Integer i = getYearBounds("min"); i < getYearBounds("max") + 1; i++)
+		{
+		quickBtns.addButton(i.toString(), new QuickAccessAction(control,
+			genYearStartDate(i), genYearEndDate(i)), null, false);
 		}
+
+		quickBtns.addButton("Letzte 30 Tage", new QuickAccessAction(control, deltaDaysFromNow(-30), new Date()));
+		quickBtns.addButton("Letzte 90 Tage", new QuickAccessAction(control, deltaDaysFromNow(-90), new Date()));
+		quickGroup.addPart(quickBtns);
+
+		ButtonArea buttons = new ButtonArea();
+		Button button = new Button("suchen", new Action() {
+			@Override
+			public void handleAction(Object context) throws ApplicationException {
+				control.getSaldoList();
+			}
+		}, null, true, "search.png");
+		buttons.addButton(button);
+		buttons.paint(this.getParent());
+
+		LabelGroup group2 = new LabelGroup(getParent(), "Saldo", true);
+		group2.addPart(control.getSaldoList());
+
+		ButtonArea buttons2 = new ButtonArea();
+		buttons2.addButton("Hilfe", new DokumentationAction(), DokumentationUtil.JAHRESSALDO, false,
+				"question-circle.png");
+		buttons2.addButton(control.getStartAuswertungCSVButton());
+		buttons2.addButton(control.getStartAuswertungButton());
+		buttons2.paint(this.getParent());
 	}
 }

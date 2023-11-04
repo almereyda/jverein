@@ -318,8 +318,9 @@ public class MitgliedskontoControl extends AbstractControl
     }
     Date d = null;
     this.datumverwendung = datumverwendung;
-
+    
     String tmp = settings.getString(datumverwendung + "datumvon", null);
+    
     if (tmp != null)
     {
       try
@@ -511,6 +512,42 @@ public class MitgliedskontoControl extends AbstractControl
     return txt;
   }
 
+  private void refresh()
+  { 
+	  saveDefaults();
+  }
+  
+  public void saveDefaults()
+  {	  
+	  if (this.vondatum != null)
+	    {
+	      Date tmp = (Date) getVondatum("kontoauszugdatumvon").getValue();
+	      if (tmp != null)
+	      {
+	        settings.setAttribute("kontoauszugdatumvon",
+	            new JVDateFormatTTMMJJJJ().format(tmp));
+	      }
+	      else
+	      {
+	        settings.setAttribute("kontoauszugdatumvon", "");
+	      }
+	    }
+
+	    if (this.bisdatum != null)
+	    {
+	      Date tmp = (Date) getBisdatum("kontoauszugdatumbis").getValue();
+	      if (tmp != null)
+	      {
+	        settings.setAttribute("kontoauszugdatumbis",
+	            new JVDateFormatTTMMJJJJ().format(tmp));
+	      }
+	      else
+	      {
+	        settings.setAttribute("kontoauszugbatumbis", "");
+	      }
+	    }	  
+  }
+  
   public void handleStore()
   {
     try
@@ -996,6 +1033,7 @@ public class MitgliedskontoControl extends AbstractControl
           Logger.error("Fehler", e);
         }
       }
+      refresh();
     }
   }
 
