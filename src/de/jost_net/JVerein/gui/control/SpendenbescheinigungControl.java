@@ -157,8 +157,9 @@ public class SpendenbescheinigungControl extends AbstractControl {
     if (zeile1 != null) {
       return zeile1;
     }
-    zeile1 = new TextInput(getSpendenbescheinigung().getZeile1(), 40);
-    if (withFocus) {
+    zeile1 = new TextInput(getSpendenbescheinigung().getZeile1(), 80);
+    if (withFocus)
+    {
       zeile1.focus();
     }
     return zeile1;
@@ -168,7 +169,7 @@ public class SpendenbescheinigungControl extends AbstractControl {
     if (zeile2 != null) {
       return zeile2;
     }
-    zeile2 = new TextInput(getSpendenbescheinigung().getZeile2(), 40);
+    zeile2 = new TextInput(getSpendenbescheinigung().getZeile2(), 80);
     return zeile2;
   }
 
@@ -176,7 +177,7 @@ public class SpendenbescheinigungControl extends AbstractControl {
     if (zeile3 != null) {
       return zeile3;
     }
-    zeile3 = new TextInput(getSpendenbescheinigung().getZeile3(), 40);
+    zeile3 = new TextInput(getSpendenbescheinigung().getZeile3(), 80);
     return zeile3;
   }
 
@@ -184,7 +185,7 @@ public class SpendenbescheinigungControl extends AbstractControl {
     if (zeile4 != null) {
       return zeile4;
     }
-    zeile4 = new TextInput(getSpendenbescheinigung().getZeile4(), 40);
+    zeile4 = new TextInput(getSpendenbescheinigung().getZeile4(), 80);
     return zeile4;
   }
 
@@ -192,7 +193,7 @@ public class SpendenbescheinigungControl extends AbstractControl {
     if (zeile5 != null) {
       return zeile5;
     }
-    zeile5 = new TextInput(getSpendenbescheinigung().getZeile5(), 40);
+    zeile5 = new TextInput(getSpendenbescheinigung().getZeile5(), 80);
     return zeile5;
   }
 
@@ -200,7 +201,7 @@ public class SpendenbescheinigungControl extends AbstractControl {
     if (zeile6 != null) {
       return zeile6;
     }
-    zeile6 = new TextInput(getSpendenbescheinigung().getZeile6(), 40);
+    zeile6 = new TextInput(getSpendenbescheinigung().getZeile6(), 80);
     return zeile6;
   }
 
@@ -208,7 +209,7 @@ public class SpendenbescheinigungControl extends AbstractControl {
     if (zeile7 != null) {
       return zeile7;
     }
-    zeile7 = new TextInput(getSpendenbescheinigung().getZeile7(), 40);
+    zeile7 = new TextInput(getSpendenbescheinigung().getZeile7(), 80);
     return zeile7;
   }
 
