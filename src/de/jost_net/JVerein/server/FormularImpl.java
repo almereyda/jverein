@@ -162,7 +162,8 @@ public class FormularImpl extends AbstractDBObject implements Formular
   public int getZaehler() throws RemoteException
   {
     Integer counter = (Integer) getAttribute("zaehler");
-    if (counter == null) {
+    if (counter == null)
+    {
       return 0;
     }
     return (int) getAttribute("zaehler");
@@ -201,10 +202,11 @@ public class FormularImpl extends AbstractDBObject implements Formular
   public Integer getFormLink() throws RemoteException
   {
     Long formId = (Long) getAttribute("formLink");
-    if (formId == null) {
+    if (formId == null)
+    {
       return 0;
     }
-    
+
     return (Integer) Math.toIntExact((formId));
   }
 
@@ -213,23 +215,35 @@ public class FormularImpl extends AbstractDBObject implements Formular
   {
     setAttribute("formLink", formLink);
   }
-  
-  public DBIterator<Formular> getLinked(Boolean withoutMaster) throws RemoteException
+
+  public DBIterator<Formular> getLinked(Boolean withoutMaster)
+      throws RemoteException
   {
-    DBIterator<Formular> formList = Einstellungen.getDBService().createList(Formular.class);
-    if (withoutMaster.booleanValue() == true) {
+    DBIterator<Formular> formList = Einstellungen.getDBService()
+        .createList(Formular.class);
+    if (withoutMaster.booleanValue() == true)
+    {
       formList.addFilter("formLink = ?", Integer.parseInt(this.getID()));
-    } else {
-      formList.addFilter("formLink = ? OR id = ?", Integer.parseInt(this.getID()), this.getFormLink());
     }
-    
+    else
+    {
+      formList.addFilter("formLink = ? OR id = ?",
+          Integer.parseInt(this.getID()), this.getFormLink());
+    }
+
     return formList;
   }
 
   public boolean hasFormLinks() throws RemoteException
   {
+    // Return FALSE for new forms
+    if (this.getID() == null)
+    {
+      return Boolean.FALSE;
+    }
+
     DBIterator<Formular> formList = getLinked(true);
-    
+
     return Boolean.valueOf(formList.size() > 0);
   }
 
